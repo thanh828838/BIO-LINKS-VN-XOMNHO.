@@ -6,20 +6,53 @@ const router = express.Router();
 
 // ============ ĐĂNG KÝ ============
 router.post('/register', async (req, res) => {
-  const { username, email, password } = req.body;
+  let { username, email, password } = req.body;
 
+  // Trim input
+  username = username ? username.trim() : '';
+  email = email ? email.trim() : '';
+
+  // Validate input cơ bản
   if (!username || !email || !password) {
-    return res.status(400).json({ success: false, error: 'Thiếu username, email hoặc password' });
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Thiếu username, email hoặc password' 
+    });
   }
 
+  // Validate username: chỉ chữ, số, dấu chấm, gạch dưới. 3-20 ký tự.
   if (username.length < 3 || username.length > 20) {
-    return res.status(400).json({ success: false, error: 'Username phải từ 3-20 ký tự' });
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Username phải từ 3-20 ký tự' 
+    });
   }
 
+  if (!/^[a-zA-Z0-9_.]+$/.test(username)) {
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Username chỉ gồm chữ, số, dấu chấm và gạch dưới' 
+    });
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Email không hợp lệ' 
+    });
+  }
+
+  // Validate password
   if (password.length < 6) {
-    return res.status(400).json({ success: false, error: 'Password phải từ 6 ký tự trở lên' });
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Password phải từ 6 ký tự trở lên' 
+    });
   }
 
+  // Kiểm tra username/email đã tồn tại chưa
   db.get(
     'SELECT id FROM users WHERE username = ? OR email = ?',
     [username, email],
@@ -46,7 +79,10 @@ router.post('/register', async (req, res) => {
 
 // ============ ĐĂNG NHẬP ============
 router.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  let { username, password } = req.body;
+
+  // Trim username
+  username = username ? username.trim() : '';
 
   if (!username || !password) {
     return res.status(400).json({ success: false, error: 'Thiếu username hoặc password' });
