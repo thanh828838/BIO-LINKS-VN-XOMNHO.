@@ -5,3 +5,4 @@ data/*.sqlite-journal
 *.log
 .DS_Store
 cookies.txt
+src/public/uploads/

@@ -66,12 +66,17 @@
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <div class="avatar"><%= profile.username.charAt(0).toUpperCase() %></div>
-      <h1 class="username">@<%= profile.username %></h1>
-      <p class="bio">Thành viên Xóm Nhỏ</p>
-    </div>
-
+<div class="header">
+  <div class="avatar">
+    <% if (profile.avatar_url) { %>
+      <img src="<%= profile.avatar_url %>" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+    <% } else { %>
+      <%= profile.username.charAt(0).toUpperCase() %>
+    <% } %>
+  </div>
+  <h1 class="username"><%= profile.display_name || '@' + profile.username %></h1>
+  <p class="bio"><%= profile.bio || 'Thành viên Xóm Nhỏ' %></p>
+</div>
     <div class="links">
       <% if (profile.links && profile.links.length > 0) { %>
         <% profile.links.forEach(function(link) { %>

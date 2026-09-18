@@ -37,6 +37,10 @@ app.use('/api/links', linkRoutes);
 
 const profileRoutes = require('./src/routes/profile');
 app.use('/api/profile', profileRoutes);
+const statsRoutes = require('./src/routes/stats');
+app.use('/api/stats', statsRoutes);
+const settingsRoutes = require('./src/routes/settings');
+app.use('/api/settings', settingsRoutes);
 
 // ============ PAGE ROUTES (THỨ TỰ QUAN TRỌNG) ============
 app.get('/', (req, res) => {
@@ -61,7 +65,7 @@ app.get('/dashboard', (req, res) => {
   if (!req.session.userId) return res.redirect('/login');
 
   db.all(
-    'SELECT id, title, url, icon, order_index FROM links WHERE user_id = ? ORDER BY order_index ASC',
+    'SELECT id, title, url, icon, order_index, click_count FROM links WHERE user_id = ? ORDER BY order_index ASC',
     [req.session.userId],
     (err, links) => {
       if (err) return res.status(500).send('Lỗi server');
@@ -73,12 +77,25 @@ app.get('/dashboard', (req, res) => {
   );
 });
 
+app.get('/settings', (req, res) => {
+  if (!req.session.userId) return res.redirect('/login');
+
+  db.get(
+    'SELECT id, username, email, display_name, bio, avatar_url, created_at FROM users WHERE id = ?',
+    [req.session.userId],
+    (err, user) => {
+      if (err || !user) return res.status(500).send('Lỗi server');
+      res.render('settings', { user });
+    }
+  );
+});
+
 // ============ ROUTE PROFILE PUBLIC (PHẢI CUỐI CÙNG) ============
 app.get('/:username', (req, res) => {
   const { username } = req.params;
 
   db.get(
-    'SELECT id, username, created_at FROM users WHERE username = ?',
+    'SELECT id, username, display_name, bio, avatar_url, created_at FROM users WHERE username = ?',
     [username],
     (err, user) => {
       if (err || !user) {
@@ -90,7 +107,15 @@ app.get('/:username', (req, res) => {
         [user.id],
         (err, links) => {
           if (err) return res.status(500).send('Lỗi server');
-          res.render('profile', { profile: { username: user.username, links: links } });
+          res.render('profile', { 
+  profile: { 
+    username: user.username, 
+    display_name: user.display_name,
+    bio: user.bio,
+    avatar_url: user.avatar_url,
+    links: links 
+  } 
+});
         }
       );
     }
