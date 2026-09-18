@@ -24,6 +24,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
 const authRoutes = require('./src/routes/auth');
+const linkRoutes = require('./src/routes/links');
+app.use('/api/links', linkRoutes);
 app.use('/api', authRoutes);
 
 app.get('/', (req, res) => {
