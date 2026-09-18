@@ -61,7 +61,7 @@ app.get('/dashboard', (req, res) => {
   if (!req.session.userId) return res.redirect('/login');
 
   db.all(
-    'SELECT id, title, url, icon, order_index FROM links WHERE user_id = ? ORDER BY order_index ASC',
+    'SELECT id, title, url, icon, order_index, click_count FROM links WHERE user_id = ? ORDER BY order_index ASC',
     [req.session.userId],
     (err, links) => {
       if (err) return res.status(500).send('Lỗi server');
