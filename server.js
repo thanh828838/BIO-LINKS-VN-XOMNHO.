@@ -20,7 +20,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24  // 24 giờ
+    maxAge: 1000 * 60 * 60 * 24
   }
 }));
 
@@ -28,7 +28,7 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
-// ============ ROUTES ============
+// ============ API ROUTES ============
 const authRoutes = require('./src/routes/auth');
 app.use('/api', authRoutes);
 
@@ -38,7 +38,7 @@ app.use('/api/links', linkRoutes);
 const profileRoutes = require('./src/routes/profile');
 app.use('/api/profile', profileRoutes);
 
-// ============ PAGE ROUTES ============
+// ============ PAGE ROUTES (THỨ TỰ QUAN TRỌNG) ============
 app.get('/', (req, res) => {
   res.send('<h1>Xóm Nhỏ - Bio Link</h1><p>Server đang chạy!</p>');
 });
@@ -47,7 +47,33 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', time: new Date() });
 });
 
-// Route profile public - PHẢI ĐẶT CUỐI CÙNG
+app.get('/login', (req, res) => {
+  if (req.session.userId) return res.redirect('/dashboard');
+  res.render('login');
+});
+
+app.get('/register', (req, res) => {
+  if (req.session.userId) return res.redirect('/dashboard');
+  res.render('register');
+});
+
+app.get('/dashboard', (req, res) => {
+  if (!req.session.userId) return res.redirect('/login');
+
+  db.all(
+    'SELECT id, title, url, icon, order_index FROM links WHERE user_id = ? ORDER BY order_index ASC',
+    [req.session.userId],
+    (err, links) => {
+      if (err) return res.status(500).send('Lỗi server');
+      res.render('dashboard', {
+        user: { username: req.session.username },
+        links: links || []
+      });
+    }
+  );
+});
+
+// ============ ROUTE PROFILE PUBLIC (PHẢI CUỐI CÙNG) ============
 app.get('/:username', (req, res) => {
   const { username } = req.params;
 

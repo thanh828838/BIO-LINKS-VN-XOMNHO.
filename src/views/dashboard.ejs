@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Xóm Nhỏ</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, sans-serif; background: #1a1a2e; color: #fff; padding: 20px; min-height: 100vh; }
+    .container { max-width: 600px; margin: 0 auto; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .user-info { font-size: 16px; }
+    .user-info strong { color: #667eea; }
+    .logout-btn { padding: 8px 16px; background: rgba(239,68,68,0.2); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); border-radius: 6px; cursor: pointer; font-size: 14px; }
+    .logout-btn:hover { background: rgba(239,68,68,0.3); }
+    .preview-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .preview-card h3 { margin-bottom: 12px; font-size: 14px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; }
+    .preview-link { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .preview-link code { flex: 1; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 6px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; }
+    .preview-link button { padding: 8px 16px; background: #667eea; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+    .add-section { margin-bottom: 24px; }
+    .add-section h2 { font-size: 18px; margin-bottom: 12px; }
+    .add-form { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; }
+    .add-form input { padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; font-size: 14px; }
+    .add-form input:focus { outline: none; border-color: #667eea; }
+    .add-form button { padding: 12px; background: #667eea; color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .add-form button:hover { background: #5568d3; }
+    .links-list h2 { font-size: 18px; margin-bottom: 12px; }
+    .link-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 8px; }
+    .link-info { flex: 1; overflow: hidden; }
+    .link-title { font-weight: 600; margin-bottom: 2px; }
+    .link-url { font-size: 12px; color: #9ca3af; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .link-actions { display: flex; gap: 6px; }
+    .btn-icon { padding: 6px 10px; background: rgba(255,255,255,0.1); border: none; border-radius: 6px; color: #fff; cursor: pointer; font-size: 14px; }
+    .btn-icon:hover { background: rgba(255,255,255,0.2); }
+    .btn-delete { color: #fca5a5; }
+    .empty { text-align: center; padding: 40px; color: #6b7280; }
+    .message { padding: 10px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; display: none; }
+    .message.success { background: rgba(34,197,94,0.2); color: #86efac; display: block; }
+    .message.error { background: rgba(239,68,68,0.2); color: #fca5a5; display: block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="user-info">Xin chào, <strong><%= user.username %></strong></div>
+      <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <div class="preview-card">
+      <h3>Link profile của bạn</h3>
+      <div class="preview-link">
+        <code id="profileUrl">https://xomnho.meorap.site/<%= user.username %></code>
+        <button onclick="copyProfile()">Copy</button>
+      </div>
+    </div>
+
+    <div class="add-section">
+      <h2>Thêm link mới</h2>
+      <form class="add-form" id="addForm">
+        <input type="text" id="title" placeholder="Tiêu đề (VD: Facebook của tôi)" required>
+        <input type="url" id="url" placeholder="URL (VD: https://facebook.com/...)" required>
+        <input type="text" id="icon" placeholder="Icon (facebook, tiktok, youtube...) — tùy chọn">
+        <button type="submit">Thêm link</button>
+      </form>
+    </div>
+
+    <div class="links-list">
+      <h2>Link của bạn (<%= links.length %>)</h2>
+      <% if (links.length === 0) { %>
+        <div class="empty">Chưa có link nào. Thêm link đầu tiên đi!</div>
+      <% } else { %>
+        <% links.forEach(function(link) { %>
+          <div class="link-item" data-id="<%= link.id %>">
+            <div class="link-info">
+              <div class="link-title"><%= link.title %></div>
+              <div class="link-url"><%= link.url %></div>
+            </div>
+            <div class="link-actions">
+              <button class="btn-icon btn-delete" onclick="deleteLink(<%= link.id %>)">Xóa</button>
+            </div>
+          </div>
+        <% }); %>
+      <% } %>
+    </div>
+  </div>
+
+  <script>
+    function showMessage(text, type) {
+      const el = document.getElementById('message');
+      el.textContent = text;
+      el.className = 'message ' + type;
+      setTimeout(() => { el.className = 'message'; }, 3000);
+    }
+
+    function copyProfile() {
+      const url = document.getElementById('profileUrl').textContent;
+      navigator.clipboard.writeText(url);
+      showMessage('Đã copy link!', 'success');
+    }
+
+    async function logout() {
+      await fetch('/api/logout', { method: 'POST' });
+      window.location.href = '/login';
+    }
+
+    document.getElementById('addForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const url = document.getElementById('url').value;
+      const icon = document.getElementById('icon').value || 'link';
+
+      try {
+        const res = await fetch('/api/links', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, url, icon })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          showMessage('Đã thêm link!', 'success');
+          setTimeout(() => window.location.reload(), 800);
+        } else {
+          showMessage(data.error, 'error');
+        }
+      } catch (err) {
+        showMessage('Lỗi kết nối', 'error');
+      }
+    });
+
+    async function deleteLink(id) {
+      if (!confirm('Xóa link này?')) return;
+
+      try {
+        const res = await fetch('/api/links/' + id, { method: 'DELETE' });
+        const data = await res.json();
+
+        if (data.success) {
+          showMessage('Đã xóa link!', 'success');
+          setTimeout(() => window.location.reload(), 800);
+        } else {
+          showMessage(data.error, 'error');
+        }
+      } catch (err) {
+        showMessage('Lỗi kết nối', 'error');
+      }
+    }
+  </script>
+</body>
+</html>
