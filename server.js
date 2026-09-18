@@ -25,6 +25,8 @@ app.set('views', path.join(__dirname, 'src/views'));
 
 const authRoutes = require('./src/routes/auth');
 const linkRoutes = require('./src/routes/links');
+const profileRoutes = require('./src/routes/profile');
+app.use('/api/profile', profileRoutes);
 app.use('/api/links', linkRoutes);
 app.use('/api', authRoutes);
 
