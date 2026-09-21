@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cài đặt — Xn</title>
+<meta name="description" content="Cài đặt hồ sơ, giao diện, bảo mật và tuỳ chọn của bạn.">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="stylesheet" href="/css/style.css?v=3">
+<link rel="stylesheet" href="/css/dashboard.css?v=3">
+<script>
+(function () {
+    try {
+        var t = localStorage.getItem('xn.theme') || 'system';
+        var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { /* storage bị chặn */ }
+})();
+</script>
+</head>
+<body class="app-body" data-page="settings">
+
+<a class="skip-link" href="#main">Tới nội dung chính</a>
+
+<div class="app">
+    <aside class="app-sidebar" data-app-sidebar></aside>
+
+    <div class="app-main">
+        <header class="app-topbar">
+            <span class="brand topbar-brand">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.5 13.5a4.5 4.5 0 0 0 6.6.4l2.6-2.6a4.5 4.5 0 0 0-6.4-6.4l-1.5 1.5"/>
+                        <path d="M13.5 10.5a4.5 4.5 0 0 0-6.6-.4l-2.6 2.6a4.5 4.5 0 0 0 6.4 6.4l1.5-1.5"/>
+                    </svg>
+                </span>
+            </span>
+            <h1 class="page-title">Cài đặt</h1>
+            <div class="spacer"></div>
+            <button class="icon-btn" type="button" data-theme-toggle aria-label="Đổi giao diện sáng/tối"></button>
+            <a class="user-chip" href="/login" data-open-profile-top>
+                <img src="/assets/avatar-default.png" alt="" data-user-avatar width="30" height="30">
+                <span data-user-handle>@bạn</span>
+            </a>
+        </header>
+
+        <div class="app-content app-content--single" id="main">
+            <div class="workspace">
+
+                <div class="settings-nav" role="tablist" aria-label="Các mục cài đặt">
+                    <button role="tab" type="button" data-tab="profile" aria-selected="true" aria-controls="panel-profile">Hồ sơ</button>
+                    <button role="tab" type="button" data-tab="appearance" aria-selected="false" aria-controls="panel-appearance">Giao diện</button>
+                    <button role="tab" type="button" data-tab="biolink" aria-selected="false" aria-controls="panel-biolink">Bio-link</button>
+                    <button role="tab" type="button" data-tab="account" aria-selected="false" aria-controls="panel-account">Tài khoản</button>
+                    <button role="tab" type="button" data-tab="security" aria-selected="false" aria-controls="panel-security">Bảo mật</button>
+                    <button role="tab" type="button" data-tab="notifications" aria-selected="false" aria-controls="panel-notifications">Thông báo</button>
+                    <button role="tab" type="button" data-tab="legal" aria-selected="false" aria-controls="panel-legal">Pháp lý &amp; dữ liệu</button>
+                </div>
+
+                <form id="settings-form" novalidate>
+                    <!-- ==================== Hồ sơ ==================== -->
+                    <section class="panel settings-panel" id="panel-profile" role="tabpanel" aria-label="Hồ sơ">
+                        <div class="panel-head">
+                            <div>
+                                <h2>Hồ sơ</h2>
+                                <p>Tên, ảnh và dòng giới thiệu ở đầu trang của bạn.</p>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="avatar-edit">
+                                <img src="/assets/avatar-default.png" alt="" id="set-avatar" width="78" height="78">
+                                <div>
+                                    <label class="btn btn--soft btn--sm" for="set-avatar-input">Tải ảnh lên</label>
+                                    <input class="sr-only" type="file" id="set-avatar-input" accept="image/*">
+                                    <button class="btn btn--ghost btn--sm" type="button" id="set-avatar-remove">Xóa ảnh</button>
+                                    <p>Ảnh vuông hiển thị đẹp nhất.</p>
+                                </div>
+                            </div>
+
+                            <div class="field-row" style="margin-top:24px">
+                                <div class="field">
+                                    <label for="set-username">Tên đăng nhập</label>
+                                    <span class="input-group">
+                                        <span class="prefix">/user/</span>
+                                        <input class="input" type="text" id="set-username" maxlength="20"
+                                               spellcheck="false" aria-describedby="set-username-error">
+                                    </span>
+                                    <p class="field-error" id="set-username-error"></p>
+                                    <p class="field-hint">Trang của bạn nằm tại <span class="mono" id="set-url">/user/bạn</span></p>
+                                </div>
+
+                                <div class="field">
+                                    <label for="set-name">Tên hiển thị</label>
+                                    <input class="input" type="text" id="set-name" maxlength="40"
+                                           aria-describedby="set-name-error">
+                                    <p class="field-error" id="set-name-error"></p>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="set-bio">Giới thiệu</label>
+                                <textarea class="textarea" id="set-bio" maxlength="140"
+                                          placeholder="Hãy kể mọi người nghe bạn làm những gì."></textarea>
+                                <p class="field-hint"><span id="set-bio-count">0/140</span></p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ==================== Giao diện ==================== -->
+                    <section class="panel settings-panel" id="panel-appearance" role="tabpanel" aria-label="Giao diện" hidden>
+                        <div class="panel-head">
+                            <div>
+                                <h2>Giao diện</h2>
+                                <p>Mọi thay đổi cập nhật phần xem trước bên phải ngay lập tức.</p>
+                            </div>
+                        </div>
+                        <div class="panel-body stack">
+                            <div class="field">
+                                <span class="field-label">Nền trang</span>
+                                <div class="option-grid" id="background-grid" role="group" aria-label="Nền trang"></div>
+                            </div>
+
+                            <div class="field">
+                                <span class="field-label">Kiểu nút liên kết</span>
+                                <div class="option-grid" id="button-grid" role="group" aria-label="Kiểu nút"></div>
+                            </div>
+
+                            <div class="field">
+                                <span class="field-label">Phông chữ</span>
+                                <div class="option-grid" id="font-grid" role="group" aria-label="Phông chữ"></div>
+                            </div>
+
+                            <div class="field">
+                                <span class="field-label">Màu nhấn</span>
+                                <div class="accent-row" id="accent-row">
+                                    <label class="sr-only" for="accent-custom">Màu nhấn tùy chọn</label>
+                                    <input class="accent-custom" type="color" id="accent-custom" value="#0EA5E9">
+                                </div>
+                            </div>
+
+                            <hr class="divider">
+
+                            <div class="field">
+                                <span class="field-label">Giao diện bảng điều khiển</span>
+                                <div class="option-grid" role="group" aria-label="Theme bảng điều khiển">
+                                    <button class="option" type="button" data-theme-option="light" aria-pressed="false">
+                                        <span class="sample" style="background:#F8FAFC;color:#0F172A">Aa</span>Sáng</button>
+                                    <button class="option" type="button" data-theme-option="dark" aria-pressed="false">
+                                        <span class="sample" style="background:#07111F;color:#F8FAFC">Aa</span>Tối</button>
+                                    <button class="option" type="button" data-theme-option="system" aria-pressed="false">
+                                        <span class="sample" style="background:linear-gradient(90deg,#F8FAFC 50%,#07111F 50%);color:#64748B">Aa</span>Hệ thống</button>
+                                </div>
+                                <p class="field-hint">Mục này chỉ ảnh hưởng trình soạn thảo, không ảnh hưởng trang công khai.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ==================== Bio-link (socials) ==================== -->
+                    <section class="panel settings-panel" id="panel-biolink" role="tabpanel" aria-label="Bio-link" hidden>
+                        <div class="panel-head">
+                            <div>
+                                <h2>Bio-link</h2>
+                                <p>Icon mạng xã hội hiển thị dưới avatar. Để trống để ẩn.</p>
+                            </div>
+                        </div>
+                        <div class="panel-body" id="social-fields"></div>
+                    </section>
+
+                    <!-- ==================== Tài khoản ==================== -->
+                    <section class="panel settings-panel" id="panel-account" role="tabpanel" aria-label="Tài khoản" hidden>
+                        <div class="panel-head">
+                            <div>
+                                <h2>Tài khoản</h2>
+                                <p>Email liên kết với tài khoản của bạn.</p>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="field">
+                                <label for="set-email">Email</label>
+                                <input class="input" type="email" id="set-email" autocomplete="email"
+                                       aria-describedby="set-email-error">
+                                <p class="field-error" id="set-email-error"></p>
+                                <p class="field-hint">Lưu cùng hồ sơ bằng nút phía dưới.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ==================== Bảo mật ==================== -->
+                    <section class="panel settings-panel" id="panel-security" role="tabpanel" aria-label="Bảo mật" hidden>
+                        <div class="panel-head">
+                            <div>
+                                <h2>Bảo mật</h2>
+                                <p>Mật khẩu và các phiên đăng nhập của bạn.</p>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <form id="password-form" novalidate>
+                                <div class="field-row">
+                                    <div class="field field-password">
+                                        <label for="pw-current">Mật khẩu hiện tại</label>
+                                        <input class="input" type="password" id="pw-current" autocomplete="current-password"
+                                               aria-describedby="pw-current-error">
+                                        <button class="reveal" type="button" data-reveal="pw-current" aria-label="Hiện mật khẩu" data-icon="eye"></button>
+                                        <p class="field-error" id="pw-current-error"></p>
+                                    </div>
+                                    <div class="field field-password">
+                                        <label for="pw-new">Mật khẩu mới</label>
+                                        <input class="input" type="password" id="pw-new" autocomplete="new-password"
+                                               aria-describedby="pw-new-error">
+                                        <button class="reveal" type="button" data-reveal="pw-new" aria-label="Hiện mật khẩu" data-icon="eye"></button>
+                                        <p class="field-error" id="pw-new-error"></p>
+                                    </div>
+                                </div>
+                                <button class="btn btn--soft" type="submit" style="margin-top:16px">Đổi mật khẩu</button>
+                            </form>
+
+                            <div class="pref-row" style="margin-top:20px">
+                                <div class="pr-text">
+                                    <strong>Đăng xuất mọi thiết bị</strong>
+                                    <span>Kết thúc toàn bộ phiên đăng nhập trên mọi trình duyệt.</span>
+                                </div>
+                                <button class="btn btn--soft btn--sm" type="button" id="revoke-all" data-icon="logout">Đăng xuất tất cả</button>
+                            </div>
+
+                            <div class="danger-zone">
+                                <h3>Xóa tài khoản</h3>
+                                <p>Xóa trang bio-link, toàn bộ liên kết và short link của bạn khỏi máy chủ. Không thể hoàn tác.</p>
+                                <button class="btn btn--danger" type="button" id="delete-account" data-icon="trash">Xóa tài khoản</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ==================== Thông báo ==================== -->
+                    <section class="panel settings-panel" id="panel-notifications" role="tabpanel" aria-label="Thông báo" hidden>
+                        <div class="panel-head">
+                            <div>
+                                <h2>Thông báo</h2>
+                                <p>Chọn những gì bạn muốn nhận. Thay đổi được lưu ngay.</p>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="pref-row">
+                                <div class="pr-text">
+                                    <strong>Cập nhật sản phẩm</strong>
+                                    <span>Email khi Xn có tính năng mới.</span>
+                                </div>
+                                <input class="switch" type="checkbox" data-pref="notifyProduct" aria-label="Cập nhật sản phẩm">
+                            </div>
+                            <div class="pref-row">
+                                <div class="pr-text">
+                                    <strong>Lượt xem đạt mốc</strong>
+                                    <span>Thông báo khi trang của bạn đạt mốc lượt xem mới.</span>
+                                </div>
+                                <input class="switch" type="checkbox" data-pref="notifyViews" aria-label="Lượt xem đạt mốc">
+                            </div>
+                            <div class="pref-row">
+                                <div class="pr-text">
+                                    <strong>Tổng kết hàng tuần</strong>
+                                    <span>Một email mỗi tuần với số liệu trang của bạn.</span>
+                                </div>
+                                <input class="switch" type="checkbox" data-pref="notifyWeekly" aria-label="Tổng kết hàng tuần">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ==================== Pháp lý & dữ liệu ==================== -->
+                    <section class="panel settings-panel" id="panel-legal" role="tabpanel" aria-label="Pháp lý và dữ liệu" hidden>
+                        <div class="panel-head">
+                            <div>
+                                <h2>Pháp lý &amp; dữ liệu</h2>
+                                <p>Trạng thái đồng ý và dữ liệu của bạn.</p>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="pref-row">
+                                <div class="pr-text">
+                                    <strong>Điều khoản &amp; Chính sách</strong>
+                                    <span id="legal-accepted">Đang tải...</span>
+                                </div>
+                                <span class="mono" id="legal-version" style="color:var(--faint);font-size:.84rem"></span>
+                            </div>
+                            <div class="pref-row">
+                                <div class="pr-text">
+                                    <strong>Tải dữ liệu của bạn</strong>
+                                    <span>Nhận bản sao toàn bộ dữ liệu (JSON): hồ sơ, liên kết, short link.</span>
+                                </div>
+                                <a class="btn btn--soft btn--sm" href="/api/export" download data-icon="download">Tải xuống</a>
+                            </div>
+                            <div class="pref-row">
+                                <div class="pr-text">
+                                    <strong>Văn bản pháp lý</strong>
+                                    <span>Đọc chi tiết các điều khoản.</span>
+                                </div>
+                                <span style="display:flex;gap:8px">
+                                    <a class="btn btn--soft btn--sm" href="/terms">Điều khoản</a>
+                                    <a class="btn btn--soft btn--sm" href="/privacy">Riêng tư</a>
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Thanh lưu -->
+                    <div class="settings-foot panel">
+                        <p id="settings-dirty" role="status">Mọi thay đổi đã được lưu.</p>
+                        <button class="btn btn--primary" type="submit" form="settings-form" id="settings-save" disabled>Lưu thay đổi</button>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="preview-col" aria-label="Xem trước trực tiếp">
+                <p class="preview-head">
+                    Xem trước trực tiếp
+                    <span class="live"><i></i> Đang cập nhật</span>
+                </p>
+                <div class="phone">
+                    <div class="phone-screen" id="settings-preview"></div>
+                </div>
+                <div class="preview-actions">
+                    <a class="btn btn--soft btn--sm" href="/dashboard" data-icon="arrowLeft">Bio-link</a>
+                    <a class="btn btn--soft btn--sm" href="/login" data-view-profile data-icon="external">Mở trang</a>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+<nav class="bottom-nav" data-app-bottomnav aria-label="Điều hướng chính"></nav>
+
+<script src="/js/main.js?v=3"></script>
+<script src="/js/app.js?v=3"></script>
+</body>
+</html>

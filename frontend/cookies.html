@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookies — Xn</title>
+<meta name="description" content="Xn sử dụng những cookie nào và vì sao.">
+<link rel="canonical" href="https://xomnho.meorap.site/cookies">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="stylesheet" href="/css/style.css?v=3">
+<script>
+(function () {
+    try {
+        var t = localStorage.getItem('xn.theme') || 'system';
+        var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { /* storage bị chặn */ }
+})();
+</script>
+</head>
+<body data-page="legal">
+
+<a class="skip-link" href="#main">Tới nội dung chính</a>
+
+<header class="site-header">
+    <div class="container inner">
+        <a class="brand" href="/" aria-label="Trang chủ Xn">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.5 13.5a4.5 4.5 0 0 0 6.6.4l2.6-2.6a4.5 4.5 0 0 0-6.4-6.4l-1.5 1.5"/>
+                    <path d="M13.5 10.5a4.5 4.5 0 0 0-6.6-.4l-2.6 2.6a4.5 4.5 0 0 0 6.4 6.4l1.5-1.5"/>
+                </svg>
+            </span>
+            <span>Xn</span>
+        </a>
+        <nav class="site-nav" aria-label="Điều hướng chính">
+            <a href="/support">Hỗ trợ</a>
+            <a href="/privacy">Riêng tư</a>
+            <a href="/login">Đăng nhập</a>
+        </nav>
+        <div class="header-actions">
+            <button class="icon-btn" type="button" data-theme-toggle></button>
+            <a class="btn btn--primary" href="/register">Tạo trang của tôi</a>
+        </div>
+    </div>
+</header>
+
+<main id="main">
+    <article class="legal-page">
+        <h1>Chính sách Cookies</h1>
+        <p class="legal-meta">Bản cập nhật: 01/01/2026 · Phiên bản 1.0</p>
+
+        <div class="legal-body">
+            <h2>Xn dùng những cookie nào?</h2>
+            <p>Xn chỉ sử dụng <strong>2 cookie</strong>, cả hai đều là cookie kỹ thuật cần thiết hoặc ẩn danh —
+                không có cookie quảng cáo hay theo dõi từ bên thứ ba.</p>
+
+            <h2>1. Cookie phiên đăng nhập — <span class="mono">xn.sid</span></h2>
+            <ul>
+                <li><strong>Mục đích:</strong> giữ phiên đăng nhập của bạn.</li>
+                <li><strong>Loại:</strong> httpOnly (JavaScript không đọc được), hết hạn sau 30 ngày.</li>
+                <li><strong>Bắt buộc:</strong> có — không có cookie này bạn không thể đăng nhập.</li>
+            </ul>
+
+            <h2>2. Cookie khách ẩn danh — <span class="mono">xnvid</span></h2>
+            <ul>
+                <li><strong>Mục đích:</strong> đếm số khách truy cập duy nhất trên trang bio-link (analytics).</li>
+                <li><strong>Loại:</strong> httpOnly, chứa một chuỗi ngẫu nhiên không gắn với danh tính, hết hạn sau 12 tháng.</li>
+                <li><strong>Bắt buộc:</strong> không — nhưng tắt cookie này sẽ làm số liệu "khách duy nhất" không chính xác.</li>
+            </ul>
+
+            <h2>Lưu trữ cục bộ (localStorage)</h2>
+            <p>Ngoài cookie, trình duyệt của bạn lưu một mục duy nhất: lựa chọn giao diện sáng/tối
+                (<span class="mono">xn.theme</span>). Đây là dữ liệu cục bộ, không gửi về máy chủ.</p>
+
+            <h2>Xóa cookie</h2>
+            <p>Bạn có thể xóa cookie bất cứ lúc nào trong cài đặt trình duyệt. Xóa cookie phiên đăng nhập
+                sẽ đăng xuất bạn khỏi Xn.</p>
+        </div>
+
+        <div class="legal-actions">
+            <a class="btn btn--primary" href="/privacy">Chính sách riêng tư</a>
+            <a class="btn btn--soft" href="/terms">Điều khoản dịch vụ</a>
+            <a class="btn btn--ghost" href="/">Về trang chủ</a>
+        </div>
+    </article>
+</main>
+
+<footer data-footer></footer>
+
+<script src="/js/main.js?v=3"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Không tìm thấy trang — Xn</title>
+<meta name="description" content="Trang Xn này không tồn tại.">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="stylesheet" href="/css/style.css?v=3">
+<script>
+(function () {
+    try {
+        var t = localStorage.getItem('xn.theme') || 'system';
+        var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { /* storage bị chặn */ }
+})();
+</script>
+</head>
+<body data-page="404">
+
+<main class="notfound">
+    <div>
+        <!-- Sợi xích gãy: hai nửa của một liên kết không còn gặp nhau -->
+        <svg class="notfound-art" viewBox="0 0 280 170" role="img" aria-label="Một liên kết bị gãy">
+            <defs>
+                <linearGradient id="fade" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="var(--primary-bright)"/>
+                    <stop offset="1" stop-color="var(--primary-bright)" stop-opacity=".35"/>
+                </linearGradient>
+            </defs>
+            <ellipse cx="140" cy="146" rx="96" ry="10" fill="var(--surface-sunken)"/>
+            <g fill="none" stroke="url(#fade)" stroke-width="13" stroke-linecap="round">
+                <path d="M104 96 76 68a26 26 0 0 1 37-37l18 18"/>
+                <path d="M176 74l28 28a26 26 0 0 1-37 37l-18-18"/>
+            </g>
+            <g stroke="var(--faint)" stroke-width="7" stroke-linecap="round" opacity=".55">
+                <path d="M133 86h-8"/>
+                <path d="M155 86h-8"/>
+            </g>
+            <circle cx="140" cy="86" r="5" fill="var(--accent)"/>
+            <g stroke="var(--faint)" stroke-width="5" stroke-linecap="round" opacity=".4">
+                <path d="M196 34l10-10M212 60l14-4M64 120l-12 8"/>
+            </g>
+        </svg>
+
+        <h1>404</h1>
+        <p id="notfound-copy">Không tìm thấy trang này. Trang Xn bạn đang tìm không tồn tại hoặc đã bị xóa.</p>
+
+        <div class="actions">
+            <a class="btn btn--primary btn--lg" href="/register" id="notfound-cta">Tạo trang của bạn</a>
+            <a class="btn btn--soft btn--lg" href="/">Về trang chủ</a>
+        </div>
+    </div>
+</main>
+
+<footer data-footer></footer>
+
+<script src="/js/main.js?v=3"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var wanted = (new URLSearchParams(location.search).get('u') || '').trim();
+    var slot = document.getElementById('notfound-copy');
+    var cta = document.getElementById('notfound-cta');
+    if (slot && wanted && window.Xn) {
+        slot.innerHTML = '<span class="mono">' + window.Xn.escapeHtml('xomnho.meorap.site/user/' + wanted) +
+            '</span> chưa có chủ. Giữ tên này trước khi ai đó lấy mất.';
+        if (cta) cta.href = '/register?u=' + encodeURIComponent(wanted);
+    }
+});
+</script>
+</body>
+</html>

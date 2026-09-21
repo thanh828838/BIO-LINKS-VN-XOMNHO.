@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Short link — Xn</title>
+<meta name="description" content="Rút gọn đường dẫn dài thành liên kết ngắn, dễ chia sẻ, kèm đếm lượt nhấp.">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="stylesheet" href="/css/style.css?v=3">
+<link rel="stylesheet" href="/css/dashboard.css?v=3">
+<script>
+(function () {
+    try {
+        var t = localStorage.getItem('xn.theme') || 'system';
+        var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { /* storage bị chặn */ }
+})();
+</script>
+</head>
+<body class="app-body" data-page="shortlinks">
+
+<a class="skip-link" href="#main">Tới nội dung chính</a>
+
+<div class="app">
+    <aside class="app-sidebar" data-app-sidebar></aside>
+
+    <div class="app-main">
+        <header class="app-topbar">
+            <span class="brand topbar-brand">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.5 13.5a4.5 4.5 0 0 0 6.6.4l2.6-2.6a4.5 4.5 0 0 0-6.4-6.4l-1.5 1.5"/>
+                        <path d="M13.5 10.5a4.5 4.5 0 0 0-6.6-.4l-2.6 2.6a4.5 4.5 0 0 0 6.4 6.4l1.5-1.5"/>
+                    </svg>
+                </span>
+            </span>
+            <h1 class="page-title">Short link</h1>
+            <div class="spacer"></div>
+            <button class="icon-btn" type="button" data-theme-toggle aria-label="Đổi giao diện sáng/tối"></button>
+            <a class="user-chip" href="/login" data-open-profile-top>
+                <img src="/assets/avatar-default.png" alt="" data-user-avatar width="30" height="30">
+                <span data-user-handle>@bạn</span>
+            </a>
+        </header>
+
+        <div class="app-content app-content--single" id="main">
+            <div class="workspace">
+
+                <section class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Tạo đường dẫn rút gọn</h2>
+                            <p>Dán đường dẫn dài — nhận lại một liên kết ngắn, dễ chia sẻ.</p>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <form class="create-short-form" id="short-form" novalidate>
+                            <div class="row2">
+                                <div class="field">
+                                    <label for="short-url">Đường dẫn gốc</label>
+                                    <input class="input" type="text" id="short-url" placeholder="https://example.com/very-long-link..."
+                                           spellcheck="false" aria-describedby="short-url-error">
+                                    <p class="field-error" id="short-url-error"></p>
+                                </div>
+                                <div class="field">
+                                    <label for="short-title">Tên ghi nhớ <span class="muted" style="font-weight:440">(không bắt buộc)</span></label>
+                                    <input class="input" type="text" id="short-title" placeholder="Ví dụ: Link sự kiện" maxlength="60">
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <button class="btn btn--primary" type="submit" id="short-create" data-icon="scissors">Tạo short link</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Đường dẫn của bạn</h2>
+                            <p>Bấm vào short link để sao chép. Lượt nhấp được đếm tự động.</p>
+                        </div>
+                    </div>
+                    <div class="panel-body panel-body--flush">
+                        <ul class="link-list" id="short-list" hidden style="padding:8px"></ul>
+                        <div class="empty" id="short-empty" hidden>
+                            <span class="empty-art" data-icon="scissors"></span>
+                            <h3>Chưa có short link nào</h3>
+                            <p>Tạo đường dẫn rút gọn đầu tiên của bạn bằng form phía trên.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="bottom-nav" data-app-bottomnav aria-label="Điều hướng chính"></nav>
+
+<script src="/js/main.js?v=3"></script>
+<script src="/js/app.js?v=3"></script>
+</body>
+</html>

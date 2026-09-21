@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang cá nhân — Xn</title>
+<meta name="description" content="Một trang Xn: mọi liên kết một người chia sẻ, tại một nơi duy nhất.">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="stylesheet" href="/css/style.css?v=3">
+<script>
+(function () {
+    try {
+        var t = localStorage.getItem('xn.theme') || 'system';
+        var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { /* storage bị chặn */ }
+})();
+</script>
+</head>
+<body data-page="profile">
+
+<div class="profile-tools">
+    <button type="button" id="profile-copy" aria-label="Sao chép liên kết trang này" data-icon="copy"></button>
+    <button type="button" id="profile-share" aria-label="Chia sẻ trang này" data-icon="share"></button>
+</div>
+
+<!-- Toàn bộ trang được render từ API bởi js/main.js -->
+<main class="profile-shell" id="profile-shell"></main>
+
+<script src="/js/main.js?v=3"></script>
+</body>
+</html>

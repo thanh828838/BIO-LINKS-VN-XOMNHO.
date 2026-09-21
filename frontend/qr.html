@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QR code — Xn</title>
+<meta name="description" content="Tạo và tải mã QR cho bio-link, đường dẫn hoặc short link của bạn.">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="stylesheet" href="/css/style.css?v=3">
+<link rel="stylesheet" href="/css/dashboard.css?v=3">
+<script>
+(function () {
+    try {
+        var t = localStorage.getItem('xn.theme') || 'system';
+        var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { /* storage bị chặn */ }
+})();
+</script>
+</head>
+<body class="app-body" data-page="qr">
+
+<a class="skip-link" href="#main">Tới nội dung chính</a>
+
+<div class="app">
+    <aside class="app-sidebar" data-app-sidebar></aside>
+
+    <div class="app-main">
+        <header class="app-topbar">
+            <span class="brand topbar-brand">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.5 13.5a4.5 4.5 0 0 0 6.6.4l2.6-2.6a4.5 4.5 0 0 0-6.4-6.4l-1.5 1.5"/>
+                        <path d="M13.5 10.5a4.5 4.5 0 0 0-6.6-.4l-2.6 2.6a4.5 4.5 0 0 0 6.4 6.4l1.5-1.5"/>
+                    </svg>
+                </span>
+            </span>
+            <h1 class="page-title">QR code</h1>
+            <div class="spacer"></div>
+            <button class="icon-btn" type="button" data-theme-toggle aria-label="Đổi giao diện sáng/tối"></button>
+            <a class="user-chip" href="/login" data-open-profile-top>
+                <img src="/assets/avatar-default.png" alt="" data-user-avatar width="30" height="30">
+                <span data-user-handle>@bạn</span>
+            </a>
+        </header>
+
+        <div class="app-content app-content--single" id="main">
+            <div class="workspace">
+                <div class="qr-layout">
+
+                    <section class="panel">
+                        <div class="panel-head">
+                            <div>
+                                <h2>Nội dung mã QR</h2>
+                                <p>Bio-link của bạn đã sẵn sàng — hoặc dán đường dẫn khác.</p>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <form id="qr-form" novalidate>
+                                <div class="field">
+                                    <label for="qr-url">Đường dẫn</label>
+                                    <input class="input" type="text" id="qr-url" placeholder="https://..."
+                                           spellcheck="false">
+                                </div>
+                                <button class="btn btn--primary" type="submit" id="qr-generate" data-icon="qr">Tạo QR</button>
+                            </form>
+
+                            <div id="qr-quick" class="qr-quick" aria-label="Short link của bạn"></div>
+                        </div>
+                    </section>
+
+                    <section class="panel">
+                        <div class="panel-head">
+                            <div>
+                                <h2>Mã QR</h2>
+                                <p>Tải xuống để in lên danh thiếp, poster, menu...</p>
+                            </div>
+                        </div>
+                        <div class="panel-body qr-preview">
+                            <div class="qr-box" id="qr-box">
+                                <div class="qr-placeholder">
+                                    <span data-icon="qr" style="display:block"></span>
+                                    Mã QR sẽ xuất hiện tại đây
+                                </div>
+                            </div>
+                            <p class="qr-url-echo" id="qr-url-echo"></p>
+                            <div class="qr-actions">
+                                <button class="btn btn--primary btn--sm" type="button" id="qr-download" data-icon="download" disabled>Tải QR</button>
+                                <button class="btn btn--soft btn--sm" type="button" id="qr-copy" data-icon="copy" disabled>Sao chép liên kết</button>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="bottom-nav" data-app-bottomnav aria-label="Điều hướng chính"></nav>
+
+<script src="/js/main.js?v=3"></script>
+<script src="/js/app.js?v=3"></script>
+</body>
+</html>

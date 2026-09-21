@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bio-link — Xn</title>
+<meta name="description" content="Quản lý trang bio-link của bạn.">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="stylesheet" href="/css/style.css?v=3">
+<link rel="stylesheet" href="/css/dashboard.css?v=3">
+<script>
+(function () {
+    try {
+        var t = localStorage.getItem('xn.theme') || 'system';
+        var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { /* storage bị chặn */ }
+})();
+</script>
+</head>
+<body class="app-body" data-page="dashboard">
+
+<a class="skip-link" href="#main">Tới nội dung chính</a>
+
+<div class="app">
+    <aside class="app-sidebar" data-app-sidebar></aside>
+
+    <div class="app-main">
+        <header class="app-topbar">
+            <span class="brand topbar-brand" href="/">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.5 13.5a4.5 4.5 0 0 0 6.6.4l2.6-2.6a4.5 4.5 0 0 0-6.4-6.4l-1.5 1.5"/>
+                        <path d="M13.5 10.5a4.5 4.5 0 0 0-6.6-.4l-2.6 2.6a4.5 4.5 0 0 0 6.4 6.4l1.5-1.5"/>
+                    </svg>
+                </span>
+            </span>
+            <h1 class="page-title">Bio-link</h1>
+            <div class="spacer"></div>
+            <button class="icon-btn" type="button" data-theme-toggle aria-label="Đổi giao diện sáng/tối"></button>
+            <a class="user-chip" href="/login" data-open-profile-top>
+                <img src="/assets/avatar-default.png" alt="" data-user-avatar width="30" height="30">
+                <span data-user-handle>@bạn</span>
+            </a>
+        </header>
+
+        <div class="app-content" id="main">
+            <div class="workspace">
+
+                <section aria-label="Thống kê">
+                    <dl class="stat-grid">
+                        <div class="stat stat--accent">
+                            <dt data-icon="eyeStat">Lượt xem trang</dt>
+                            <dd id="stat-views">0</dd>
+                            <p class="trend">Tổng cộng</p>
+                        </div>
+                        <div class="stat">
+                            <dt data-icon="cursor">Lượt nhấp</dt>
+                            <dd id="stat-clicks">0</dd>
+                            <p class="trend">Tổng cộng</p>
+                        </div>
+                        <div class="stat">
+                            <dt data-icon="chart">Tỷ lệ nhấp</dt>
+                            <dd id="stat-rate">—</dd>
+                            <p class="trend">Nhấp trên mỗi lượt xem</p>
+                        </div>
+                        <div class="stat">
+                            <dt data-icon="layers">Liên kết đang chạy</dt>
+                            <dd id="stat-active">0/0</dd>
+                            <p class="trend">Nhiều nhất: <span id="stat-top">Chưa có lượt nhấp</span></p>
+                        </div>
+                    </dl>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Hồ sơ của bạn</h2>
+                            <p>Khách truy cập sẽ thấy phần này ở đầu trang.</p>
+                        </div>
+                        <a class="btn btn--soft btn--sm" href="/settings" data-icon="pencil">Sửa hồ sơ</a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="profile-summary">
+                            <img src="/assets/avatar-default.png" alt="" id="summary-avatar" width="72" height="72">
+                            <div class="meta">
+                                <h3 id="summary-name">Tên của bạn</h3>
+                                <p class="handle" id="summary-handle">@bạn</p>
+                                <p class="bio" id="summary-bio"></p>
+                                <span class="url-chip" id="summary-url">
+                                    <span>xomnho.meorap.site/user/bạn</span>
+                                    <button type="button" id="copy-url" aria-label="Sao chép liên kết trang của bạn" data-icon="copy"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Liên kết</h2>
+                            <p>Kéo nút bên trái để sắp xếp. Thay đổi áp dụng ngay lập tức.</p>
+                        </div>
+                        <button class="btn btn--primary btn--sm" type="button" id="add-link" data-icon="plus">Thêm liên kết</button>
+                    </div>
+                    <div class="panel-body panel-body--flush">
+                        <ul class="link-list" id="link-list" hidden></ul>
+
+                        <div class="empty" id="link-empty" hidden>
+                            <span class="empty-art" data-icon="link"></span>
+                            <h3>Chưa có liên kết nào</h3>
+                            <p>Thêm điều đầu tiên bạn muốn mọi người mở — website, kênh YouTube,
+                                Instagram, cửa hàng...</p>
+                            <button class="btn btn--primary" type="button" id="add-first-link" data-icon="plus">Thêm liên kết đầu tiên</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-head">
+                        <div>
+                            <h2>7 ngày qua</h2>
+                            <p>Lượt xem được đếm mỗi khi trang của bạn được mở.</p>
+                        </div>
+                        <a class="btn btn--soft btn--sm" href="/analytics">Xem analytics</a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="chart" id="views-chart"></div>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="preview-col" aria-label="Xem trước trực tiếp">
+                <p class="preview-head">
+                    Xem trước trực tiếp
+                    <span class="live"><i></i> Đang cập nhật</span>
+                </p>
+                <div class="phone">
+                    <div class="phone-screen" id="dash-preview"></div>
+                </div>
+                <div class="preview-actions">
+                    <button class="btn btn--soft btn--sm" type="button" id="preview-copy" data-icon="copy">Sao chép liên kết</button>
+                    <button class="btn btn--soft btn--sm" type="button" id="preview-open" data-icon="external">Mở trang</button>
+                    <button class="btn btn--soft btn--sm" type="button" id="share-profile" data-icon="share">Chia sẻ</button>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+<nav class="bottom-nav" data-app-bottomnav aria-label="Điều hướng chính"></nav>
+
+<!-- Trình soạn liên kết -->
+<div class="modal" id="link-modal">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="link-modal-title">
+        <div class="modal-head">
+            <h2 id="link-modal-title">Thêm liên kết</h2>
+            <button class="icon-btn" type="button" data-close-modal aria-label="Đóng" data-icon="close"></button>
+        </div>
+        <form id="link-form" novalidate>
+            <div class="modal-body">
+                <div class="field">
+                    <label for="link-title">Tiêu đề</label>
+                    <input class="input" type="text" id="link-title" placeholder="Website của tôi"
+                           maxlength="60" data-autofocus aria-describedby="link-title-error">
+                    <p class="field-error" id="link-title-error"></p>
+                </div>
+
+                <div class="field">
+                    <label for="link-url">Đường dẫn</label>
+                    <input class="input" type="text" id="link-url" placeholder="example.com"
+                           spellcheck="false" aria-describedby="link-url-error">
+                    <p class="field-error" id="link-url-error"></p>
+                    <p class="field-hint">Chúng tôi tự thêm https:// nếu bạn bỏ qua.</p>
+                </div>
+
+                <div class="field">
+                    <span class="field-label" id="icon-picker-label">Biểu tượng</span>
+                    <div class="icon-picker" id="icon-picker" role="group" aria-labelledby="icon-picker-label"
+                         style="display:flex;flex-wrap:wrap;gap:7px"></div>
+                </div>
+
+                <label class="check" style="margin-top:20px">
+                    <input class="switch" type="checkbox" id="link-enabled" checked>
+                    <span>Hiện liên kết này trên trang của tôi</span>
+                </label>
+            </div>
+            <div class="modal-foot">
+                <button class="btn btn--soft" type="button" data-close-modal>Hủy</button>
+                <button class="btn btn--primary" type="submit" id="link-submit">Thêm liên kết</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/main.js?v=3"></script>
+<script src="/js/app.js?v=3"></script>
+</body>
+</html>

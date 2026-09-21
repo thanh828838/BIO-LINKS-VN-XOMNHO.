@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hỗ trợ — Xn</title>
+<meta name="description" content="Trung tâm hỗ trợ Xn: câu hỏi thường gặp, báo lỗi và liên hệ đội ngũ.">
+<link rel="canonical" href="https://xomnho.meorap.site/support">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="stylesheet" href="/css/style.css?v=3">
+<script>
+(function () {
+    try {
+        var t = localStorage.getItem('xn.theme') || 'system';
+        var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { /* storage bị chặn */ }
+})();
+</script>
+</head>
+<body data-page="support">
+
+<a class="skip-link" href="#main">Tới nội dung chính</a>
+
+<header class="site-header">
+    <div class="container inner">
+        <a class="brand" href="/" aria-label="Trang chủ Xn">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.5 13.5a4.5 4.5 0 0 0 6.6.4l2.6-2.6a4.5 4.5 0 0 0-6.4-6.4l-1.5 1.5"/>
+                    <path d="M13.5 10.5a4.5 4.5 0 0 0-6.6-.4l-2.6 2.6a4.5 4.5 0 0 0 6.4 6.4l1.5-1.5"/>
+                </svg>
+            </span>
+            <span>Xn</span>
+        </a>
+        <nav class="site-nav" aria-label="Điều hướng chính">
+            <a href="/#tinh-nang">Tính năng</a>
+            <a href="/team">Đội ngũ</a>
+            <a href="/login">Đăng nhập</a>
+        </nav>
+        <div class="header-actions">
+            <button class="icon-btn" type="button" data-theme-toggle></button>
+            <a class="btn btn--primary" href="/register" data-cta-main>Tạo trang của tôi</a>
+            <button class="icon-btn nav-toggle" type="button" data-nav-toggle aria-expanded="false"
+                    aria-controls="mobile-nav" aria-label="Mở menu" data-icon="menu"></button>
+        </div>
+    </div>
+</header>
+
+<nav class="mobile-nav" id="mobile-nav" aria-label="Menu di động">
+    <a href="/#tinh-nang">Tính năng</a>
+    <a href="/team">Đội ngũ</a>
+    <a href="/login">Đăng nhập</a>
+    <a class="btn btn--primary btn--block" href="/register">Tạo trang của tôi</a>
+</nav>
+
+<main id="main">
+    <div class="page-wrap">
+        <h1>Trung tâm hỗ trợ</h1>
+        <p class="lead">Gặp vấn đề khi dùng Xn? Chọn chủ đề bên dưới hoặc gửi báo cáo trực tiếp cho chúng tôi.</p>
+
+        <div class="card-grid">
+            <a class="info-card" href="#bao-loi">
+                <span class="ic-icon" data-icon="bug"></span>
+                <h3>Báo lỗi</h3>
+                <p>Phát hiện lỗi hoặc gặp vấn đề? Gửi báo cáo cho đội ngũ Xn.</p>
+                <span class="ic-more">Gửi báo cáo <span data-icon="chevron"></span></span>
+            </a>
+            <a class="info-card" href="#lien-he">
+                <span class="ic-icon" data-icon="mail"></span>
+                <h3>Liên hệ hỗ trợ</h3>
+                <p>Câu hỏi về tài khoản, trang của bạn hoặc dữ liệu.</p>
+                <span class="ic-more">Liên hệ <span data-icon="chevron"></span></span>
+            </a>
+            <a class="info-card" href="/terms">
+                <span class="ic-icon" data-icon="lock"></span>
+                <h3>Điều khoản dịch vụ</h3>
+                <p>Quyền và trách nhiệm khi sử dụng Xn.</p>
+                <span class="ic-more">Xem điều khoản <span data-icon="chevron"></span></span>
+            </a>
+            <a class="info-card" href="/team">
+                <span class="ic-icon" data-icon="people"></span>
+                <h3>Đội ngũ Xn</h3>
+                <p>Những người xây dựng và chăm sóc nền tảng.</p>
+                <span class="ic-more">Gặp đội ngũ <span data-icon="chevron"></span></span>
+            </a>
+        </div>
+
+        <!-- ==================== Báo lỗi: nút riêng tới trang /report ==================== -->
+        <section class="report-form-wrap" id="bao-loi" style="text-align:left">
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between">
+                <div style="display:flex;align-items:center;gap:14px;min-width:0">
+                    <span class="ic-icon" data-icon="bug" style="display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:var(--primary-soft);color:var(--primary);flex:none"></span>
+                    <div style="min-width:0">
+                        <h2 style="font-size:1.1rem">Báo lỗi</h2>
+                        <p style="margin-top:4px;color:var(--muted);font-size:.9rem">Phát hiện lỗi hoặc gặp vấn đề? Gửi báo cáo cho đội ngũ Xn.</p>
+                    </div>
+                </div>
+                <a class="btn btn--primary" href="/report" data-icon="chevron">Mở trang báo lỗi</a>
+            </div>
+        </section>
+
+        <!-- ==================== Liên hệ ==================== -->
+        <section class="report-form-wrap" id="lien-he" style="margin-top:20px">
+            <h2>Liên hệ hỗ trợ</h2>
+            <p>Với các câu hỏi chung, hãy email <a href="mailto:support@xomnho.meorap.site" style="color:var(--primary)">support@xomnho.meorap.site</a> —
+                chúng tôi phản hồi trong vòng 24 giờ làm việc. Câu hỏi nhanh cũng có thể gửi qua form báo lỗi ở trên,
+                chọn loại vấn đề "Khác".</p>
+        </section>
+    </div>
+</main>
+
+<footer data-footer></footer>
+
+<script src="/js/main.js?v=3"></script>
+</body>
+</html>

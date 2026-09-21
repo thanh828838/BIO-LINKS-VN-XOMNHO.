@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tạo trang của bạn — Xn</title>
+<meta name="description" content="Giữ tên đăng nhập Xn và tạo trang bio-link cá nhân của riêng bạn.">
+<link rel="canonical" href="https://xomnho.meorap.site/register">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="stylesheet" href="/css/style.css?v=3">
+<script>
+(function () {
+    try {
+        var t = localStorage.getItem('xn.theme') || 'system';
+        var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { /* storage bị chặn */ }
+})();
+</script>
+</head>
+<body data-page="register">
+
+<a class="skip-link" href="#main">Tới nội dung chính</a>
+
+<div class="auth">
+    <div class="auth-form-side">
+        <header>
+            <a class="brand" href="/" aria-label="Trang chủ Xn">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.5 13.5a4.5 4.5 0 0 0 6.6.4l2.6-2.6a4.5 4.5 0 0 0-6.4-6.4l-1.5 1.5"/>
+                        <path d="M13.5 10.5a4.5 4.5 0 0 0-6.6-.4l-2.6 2.6a4.5 4.5 0 0 0 6.4 6.4l1.5-1.5"/>
+                    </svg>
+                </span>
+                <span>Xn</span>
+            </a>
+            <div style="display:flex;gap:8px;align-items:center">
+                <button class="icon-btn" type="button" data-theme-toggle></button>
+                <a class="btn btn--soft btn--sm" href="/login">Đăng nhập</a>
+            </div>
+        </header>
+
+        <main class="auth-body" id="main">
+            <h1>Tạo trang của bạn</h1>
+            <p>Chọn tên mọi người sẽ thấy sau <span class="mono">xomnho.meorap.site/user/</span> — bạn có thể đổi sau.</p>
+
+            <form class="auth-form" id="register-form" novalidate>
+                <div class="form-alert" id="reg-alert" role="alert"></div>
+
+                <div class="field">
+                    <label for="reg-username">Tên đăng nhập</label>
+                    <span class="input-group">
+                        <span class="prefix">xomnho.meorap.site/user/</span>
+                        <input class="input" type="text" id="reg-username" name="username"
+                               placeholder="tencuaban" autocomplete="username" spellcheck="false"
+                               maxlength="20" required aria-describedby="reg-username-error">
+                    </span>
+                    <p class="field-error" id="reg-username-error"></p>
+                    <p class="field-hint">Chữ thường, số, dấu chấm và gạch dưới. 3–20 ký tự.</p>
+                </div>
+
+                <div class="field">
+                    <label for="reg-email">Email</label>
+                    <input class="input" type="email" id="reg-email" name="email"
+                           placeholder="ban@example.com" autocomplete="email" required
+                           aria-describedby="reg-email-error">
+                    <p class="field-error" id="reg-email-error"></p>
+                </div>
+
+                <div class="field field-password">
+                    <label for="reg-password">Mật khẩu</label>
+                    <input class="input" type="password" id="reg-password" name="password"
+                           placeholder="Ít nhất 8 ký tự" autocomplete="new-password" required
+                           aria-describedby="reg-password-error">
+                    <button class="reveal" type="button" data-reveal="reg-password" aria-label="Hiện mật khẩu" data-icon="eye"></button>
+                    <p class="field-error" id="reg-password-error"></p>
+                </div>
+
+                <div class="field field-password">
+                    <label for="reg-confirm">Xác nhận mật khẩu</label>
+                    <input class="input" type="password" id="reg-confirm" name="confirm"
+                           placeholder="Nhập lại một lần nữa" autocomplete="new-password" required
+                           aria-describedby="reg-confirm-error">
+                    <button class="reveal" type="button" data-reveal="reg-confirm" aria-label="Hiện mật khẩu" data-icon="eye"></button>
+                    <p class="field-error" id="reg-confirm-error"></p>
+                </div>
+
+                <!-- Legal consent: bắt buộc, không checked mặc định, nút Đăng ký chỉ bật khi tick -->
+                <div class="check" style="margin:20px 0 4px">
+                    <input type="checkbox" id="reg-legal">
+                    <span>Tôi đồng ý với
+                        <a href="/terms" target="_blank" rel="noopener">Điều khoản dịch vụ</a> và
+                        <a href="/privacy" target="_blank" rel="noopener">Chính sách riêng tư</a>
+                        của Xn.</span>
+                </div>
+
+                <button class="btn btn--primary btn--lg btn--block" type="submit" id="reg-submit" disabled>Đăng ký</button>
+            </form>
+
+            <p class="auth-alt">Đã có trang? <a href="/login">Đăng nhập</a></p>
+        </main>
+    </div>
+
+    <aside class="auth-aside is-mobile-visible" aria-label="Xem trước trang của bạn">
+        <div class="auth-aside-copy">
+            <h2>Đây là trang của bạn</h2>
+            <p>Nó cập nhật theo từng ký tự bạn gõ. Thêm liên kết ngay sau khi đăng ký.</p>
+        </div>
+        <div class="phone">
+            <div class="phone-screen" id="reg-preview"></div>
+        </div>
+        <p class="pill"><span class="dot"></span> <span class="mono" id="reg-url">xomnho.meorap.site/user/ten-cua-ban</span></p>
+    </aside>
+</div>
+
+<script src="/js/main.js?v=3"></script>
+</body>
+</html>

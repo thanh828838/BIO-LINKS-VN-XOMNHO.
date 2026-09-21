@@ -1,8 +1,14 @@
-node_modules/
+# Secrets & config
 .env
-data/*.sqlite
-data/*.sqlite-journal
+*.env
+
+# Dependencies
+node_modules/
+
+# Logs
 *.log
+npm-debug.log*
+
+# OS
+Thumbs.db
 .DS_Store
-cookies.txt
-src/public/uploads/
