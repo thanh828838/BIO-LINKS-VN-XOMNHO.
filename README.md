@@ -1,6 +1,6 @@
 Xn BioLinks
 
-> Nền tảng bio-link full-stack cho người Việt — dự án cá nhân của mình, hoàn thành trong 4 ngày (tháng 9/2026).
+> Nền tảng bio-link full-stack cho người Việt — dự án chung của nhóm Xóm nhỏ Entertainment, hoàn thành trong 4 ngày (tháng 9/2026).
 
 [![Node.js](https://img.shields.io/badge/Node.js-20-green)](https://nodejs.org)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)](https://postgresql.org)
@@ -8,7 +8,11 @@ Xn BioLinks
 
 ## 🎯 Về dự án
 
-Mình 16 tuổi, học Quản trị mạng máy tính. Đây là dự án cá nhân đầu tiên mình làm từ A-Z — từ setup VPS, code backend, deploy production, đến thiết kế database.
+Thành, học Quản trị mạng máy tính. Đây là dự án cá nhân đầu tiên mình làm từ A-Z — từ setup VPS, code backend, deploy production, đến thiết kế database.
+
+Mâyy , học kỹ thuật máy tính , đây là dự án giúp mình nhận ra những thiếu sót trong UI nhưng vẫn cố gắng đồng hành đến cùng
+
+Bảo , mình làm Pháp lý và tester cho web và UI
 
 **Mục tiêu:** Tạo nền tảng bio-link cho người Việt, có tính năng mà Linktree/zyo.lol không có (icon Zalo/Momo/Shopee, analytics chi tiết, hỗ trợ tiếng Việt).
 
