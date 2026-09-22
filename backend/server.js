@@ -12,6 +12,7 @@ require('dotenv').config();
 
 const path = require('path');
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 
 const db = require('./config/database');
@@ -27,6 +28,31 @@ app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 app.use(attachUser);
 
+// Rate limiting
+const generalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Bạn gửi quá nhiều yêu cầu, thử lại sau 15 phút.' }
+});
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  skipSuccessfulRequests: true,
+  message: { message: 'Sai mật khẩu quá nhiều lần, thử lại sau 15 phút.' }
+});
+
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 3,
+  message: { message: 'Bạn đã tạo quá nhiều tài khoản, thử lại sau 1 giờ.' }
+});
+
+app.use('/api/', generalLimiter);
+app.use('/api/login', loginLimiter);
+app.use('/api/register', registerLimiter);
 // API có trạng thái session — tuyệt đối không cho trình duyệt/proxy cache,
 // tránh lỗi "login xong vẫn bị đá về login" do trả cached authenticated:false
 app.use('/api', (req, res, next) => {
